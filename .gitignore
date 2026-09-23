@@ -35,3 +35,7 @@ node_modules/
 # LiveSvelte build artifacts
 /assets/svelte/_build/
 /priv/svelte/
+
+# Removes junk
+package-lock.json
+.elixir_ls/
