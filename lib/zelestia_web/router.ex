@@ -17,6 +17,7 @@ defmodule ZelestiaWeb.Router do
   scope "/", ZelestiaWeb do
     pipe_through :browser
     live "/svelte_demo", SvelteDemoLive
+    live "/chatroom", Chat
 
     get "/", PageController, :home
   end
