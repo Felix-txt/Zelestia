@@ -39,3 +39,5 @@ node_modules/
 # Removes junk
 .elixir_ls/
 
+# .env
+.env

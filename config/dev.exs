@@ -20,13 +20,13 @@ config :zelestia, Zelestia.Repo,
 config :zelestia, ZelestiaWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
-  http: [ip: {127, 0, 0, 1}, port: String.to_integer(System.get_env("PORT") || "4000")],
+  http: [ip: {0, 0, 0, 0}, port: String.to_integer(System.get_env("PORT") || "4000")],
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
   secret_key_base: "k0II0E0HASikQBWX4JABNLbEmiiq6rV1MT4CFpn1CCjQb1TJbElV+QdRpPVvAf9X",
   watchers: [vite: {PhoenixVite.Npm, :run, [:vite, ~w(dev)]}],
-  static_url: [host: "localhost", port: 5173]
+  static_url: [host: System.get_env("SERVER_IP"), port: 5173]
 
 # ## SSL Support
 #
