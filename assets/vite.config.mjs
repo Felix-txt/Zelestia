@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     port: 5173,
     strictPort: true,
-    cors: { origin: "http://localhost:4000" },
+    cors: true,
     host: "0.0.0.0",
   },
   optimizeDeps: {
