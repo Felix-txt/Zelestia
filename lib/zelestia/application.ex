@@ -28,6 +28,7 @@ defmodule Zelestia.Application do
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Zelestia.Supervisor]
+    :ets.new(:messages,[:ordered_set, :public, :named_table])
     Supervisor.start_link(children, opts)
   end
 
