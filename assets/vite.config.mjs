@@ -8,6 +8,7 @@ export default defineConfig({
     port: 5173,
     strictPort: true,
     cors: { origin: "http://localhost:4000" },
+    host: "0.0.0.0",
   },
   optimizeDeps: {
     // https://vitejs.dev/guide/dep-pre-bundling#monorepos-and-linked-dependencies

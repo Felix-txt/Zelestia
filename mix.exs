@@ -41,6 +41,7 @@ defmodule Zelestia.MixProject do
   defp deps do
     [
       {:live_svelte, "~> 0.18"},
+      {:dotenvy, "~> 1.1"},
       {:igniter, "~> 0.6", only: [:dev, :test]},
       {:phoenix, "~> 1.8.1"},
       {:phoenix_ecto, "~> 4.5"},

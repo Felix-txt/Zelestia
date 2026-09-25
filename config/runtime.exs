@@ -20,6 +20,11 @@ if System.get_env("PHX_SERVER") do
   config :zelestia, ZelestiaWeb.Endpoint, server: true
 end
 
+env_file = Path.join(File.cwd!(), ".env")
+if File.exists?(env_file) do
+  Dotenvy.source!(env_file)
+end
+
 if config_env() == :prod do
   database_url =
     System.get_env("DATABASE_URL") ||
