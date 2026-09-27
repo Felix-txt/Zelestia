@@ -20,6 +20,12 @@ defmodule ZelestiaWeb.Router do
     live "/chatroom", Chat
 
     get "/", PageController, :home
+    get "/account/login", AccountController, :load_login
+    get "/account/create", AccountController, :load_create
+
+    post "/account/login", AccountController, :login
+    post "/account/create", AccountController, :create
+    post "/account/logout", AccountController, :logout
   end
 
   # Other scopes may use custom stacks.
