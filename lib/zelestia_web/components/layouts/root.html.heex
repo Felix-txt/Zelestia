@@ -11,7 +11,12 @@
       names={["js/app.js", "css/app.css"]}
       manifest={{:zelestia, "priv/static/.vite/manifest.json"}}
       dev_server={PhoenixVite.Components.has_vite_watcher?(ZelestiaWeb.Endpoint)}
-      to_url={fn p -> static_url(@conn, p) end}
+      to_url={fn p -> if PhoenixVite.Components.has_vite_watcher?(ZelestiaWeb.Endpoint) do
+        "http://#{@conn.host}:5173/#{String.trim_leading(p, "/")}"
+      else
+        static_url(@conn, p)
+      end
+    end}
     />
   </head>
   <body>
