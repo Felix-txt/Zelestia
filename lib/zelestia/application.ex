@@ -29,6 +29,7 @@ defmodule Zelestia.Application do
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Zelestia.Supervisor]
     :ets.new(:messages,[:ordered_set, :public, :named_table])
+    :ets.new(:users,[:ordered_set, :public, :named_table])
     Supervisor.start_link(children, opts)
   end
 
