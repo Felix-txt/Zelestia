@@ -10,8 +10,8 @@
     let name = $state("")
 
     function submitMessage() {
-        if (message === "" || name === "") return
-        live.pushEvent("send_message", {body: message, name: name})
+        if (message === "") return
+        live.pushEvent("send_message", {body: message})
         message = ""
     }
 </script>
@@ -27,7 +27,6 @@
     </ul>
 
     <form onsubmit={preventDefault(submitMessage)}>
-        <input type="text" name="name" class="rounded" bind:value={name} placeholder="Your Name" />
         <input type="text" name="message" class="rounded" bind:value={message} placeholder="Message..." />
         <button class="bg-black text-white rounded px-4 py-2">Send</button>
     </form>
