@@ -14,12 +14,11 @@ defmodule ZelestiaWeb.Router do
     plug :accepts, ["json"]
   end
 
+  # public
   scope "/", ZelestiaWeb do
     pipe_through :browser
     live "/svelte_demo", SvelteDemoLive
-    live "/chatroom", Chat
 
-    get "/", PageController, :home
     get "/account/login", AccountController, :load_login
     get "/account/create", AccountController, :load_create
 
@@ -28,10 +27,33 @@ defmodule ZelestiaWeb.Router do
     post "/account/logout", AccountController, :logout
   end
 
+  pipeline :auth do
+    plug :bouncer
+  end
+
+  # Must be Logged in to acces
+  scope "/", ZelestiaWeb do
+    pipe_through [:browser, :auth]
+    live "/chatroom", Chat
+
+    get "/", PageController, :home
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", ZelestiaWeb do
   #   pipe_through :api
   # end
+
+  defp bouncer(conn, _opts) do
+    if :ets.lookup(:users, get_session(conn, :user_id)) != [] do
+      conn
+    else
+      conn
+      |> put_flash(:error, "Must be logged in to view this page.")
+      |> redirect(to: "/account/login")
+      |> halt()
+    end
+  end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:zelestia, :dev_routes) do
