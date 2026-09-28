@@ -9,6 +9,7 @@ export default defineConfig({
     strictPort: true,
     cors: true,
     host: "0.0.0.0",
+    transformer: 'esbuild',
   },
   optimizeDeps: {
     // https://vitejs.dev/guide/dep-pre-bundling#monorepos-and-linked-dependencies
@@ -34,6 +35,6 @@ export default defineConfig({
   plugins: [
     tailwindcss(),
     svelte({ compilerOptions: { css: "injected" } }),
-    liveSveltePlugin({ entrypoint: "./js/server.js" })
+    liveSveltePlugin({ entrypoint: "./js/server.js" }),
   ]
 });

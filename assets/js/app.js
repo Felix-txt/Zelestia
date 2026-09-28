@@ -27,6 +27,21 @@ import {hooks as colocatedHooks} from "phoenix-colocated/zelestia"
 import topbar from "topbar"
 import {getHooks} from "live_svelte"
 import Components from "virtual:live-svelte-components"
+const rawStaticComponents = import.meta.glob('../svelte/static/*.svelte', { eager: true });
+const StaticComponents = Object.entries(rawStaticComponents).reduce((acc, [path, module]) => {
+  const fileName = path.split('/').pop().replace('.svelte', '');
+  acc[fileName] = module;
+  return acc;
+}, {});
+
+const components = {...Components}
+for (const key in StaticComponents){
+  const cleanKey = key.split('/').pop().replace('.svelte', '');
+
+  components[cleanKey] = StaticComponents[key].default;
+}
+
+import { mount } from "svelte"
 
 const csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 const liveSocket = new LiveSocket("/live", Socket, {
@@ -83,3 +98,30 @@ if (process.env.NODE_ENV === "development") {
     window.liveReloader = reloader
   })
 }
+
+function hydrateStaticSvelte() {
+  const elements = document.querySelectorAll("[data-live-svelte-component]")
+
+  elements.forEach(el => {
+    if (el.dataset.svelteMounted) return 
+
+    const componentName = el.dataset.liveSvelteComponent
+    const Component = components[componentName]
+    
+    if (Component) {
+      const props = JSON.parse(el.dataset.props || "{}")
+      
+      mount(Component, {
+        target: el,
+        props: props
+      })
+      
+      el.dataset.svelteMounted = "true"
+    }
+  })
+
+}
+
+document.addEventListener("DOMContentLoaded", hydrateStaticSvelte)
+
+window.addEventListener("phx:page-loading-stop", _info => hydrateStaticSvelte())
