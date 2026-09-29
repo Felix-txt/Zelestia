@@ -16,3 +16,7 @@
     background-color: var(--theme-background);
 }
 /* This file is for your main application CSS */
+
+#ChatRoom, #ChatRoom-target{
+    height: 100%;
+}
