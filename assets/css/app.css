@@ -2,4 +2,21 @@
 /* Make LiveView wrapper divs transparent for layout */
 [data-phx-session], [data-phx-teleported-src] { display: contents }
 
+:global(*){
+    --theme-background: #957AD0;
+    --theme-middle-background: #BF9DDF;
+    --theme-middle-foreground: #FFA5D8;
+    --theme-foreground: white;
+    --theme-accent: #92DDEA;
+    --theme-border: #7EB8DC;
+}
+
+:global(body){
+    margin: 0;
+    background-color: var(--theme-background);
+}
 /* This file is for your main application CSS */
+
+#ChatRoom, #ChatRoom-target{
+    height: 100%;
+}

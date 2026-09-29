@@ -16,24 +16,68 @@
     }
 </script>
 
-<div class="flex flex-col justify-between items-between min-h-[400px]">
-    <ul class="flex flex-col gap-2">
+<div class="field">
+    <ul class="messages">
         {#each messages as message (message.id)}
-            <li in:slide class="bg-[#eee] rounded-full px-4 py-2 rounded-bl-none">
+            <li in:slide class="">
                 <i>{message.name}:</i>
+                <br>
                 {message.body}
             </li>
         {/each}
     </ul>
 
-    <form onsubmit={preventDefault(submitMessage)}>
-        <input type="text" name="message" class="rounded" bind:value={message} placeholder="Message..." />
-        <button class="bg-black text-white rounded px-4 py-2">Send</button>
+    <form class="message_field" onsubmit={preventDefault(submitMessage)}>
+        <input type="text" name="message" class="rounded" bind:value={message} placeholder="Message..." autocomplete="off" />
+        <button class="rounded">Send</button>
+
+  
     </form>
 </div>
 
 <style>
-    li{
-        color: black;
-    }
+
+.field{
+    display: grid;
+    height: 100%;
+    grid-template-rows: 90% auto;
+    overflow: hidden;
+    scroll-behavior: none;
+}
+
+.message_field{
+    display: grid;
+    grid-template-columns: 10% 80% 10%;
+    justify-content: center;
+    max-height: 30px;
+    border: 8px solid var(--theme-border);
+    border-radius: 25px;
+    background: var(--theme-middle-background);
+}
+
+.messages{
+    height: 800px;
+    overflow: scroll;
+    scroll-behavior: smooth;
+}
+
+.messages > li{
+    word-wrap: break-word;
+    list-style-type: none;
+    font-weight: bold;
+    font-size: large;
+    color: var(--theme-foreground);
+}
+
+.rounded{
+    word-wrap: break-word;
+    background: var(--theme-border); /* input background */
+    color: var(--theme-accent);/* text colour */
+    border: none;
+}
+
+.message_field > button:hover{
+    cursor: pointer;
+}
+
 </style>

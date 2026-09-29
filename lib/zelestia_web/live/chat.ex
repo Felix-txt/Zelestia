@@ -7,7 +7,7 @@ defmodule ZelestiaWeb.Chat do
 
   def render(assigns) do
     ~H"""
-    <LiveSvelte.svelte name="ChatRoom" props={%{messages: @messages}} />
+    <LiveSvelte.svelte name="ChatRoom" props={%{messages: @messages}} style="height=100%"/>
     """
   end
 
