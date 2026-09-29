@@ -30,10 +30,11 @@ defmodule ZelestiaWeb.Chat do
 
   def handle_event("send_message", event, socket) do
     [{_id, name, _password}] = :ets.match_object(:users, {socket.assigns.user_id, :_ , :_})
-    size = :ets.info(:messages, :size)
+    message_id = Ecto.UUID.generate(version: 7)
+
     event =
       event
-      |> Map.put("id", size + 1)
+      |> Map.put("id", message_id)
       |> Map.put("name", name)
 
     :ets.insert(:messages, {event["id"] , socket.assigns.user_id, event["body"]})
