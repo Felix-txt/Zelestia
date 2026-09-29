@@ -24,27 +24,29 @@ defmodule ZelestiaWeb.Chat do
   defp format([], acc), do: Enum.reverse(acc)
   defp format([head | tail], acc) do
     {id, user_id, body} = head
-    [{_id, name, _password}] = :ets.match_object(:users, {user_id, :_ , :_})
+    [{_id, name, _password}] = :ets.lookup(:users, user_id)
     format(tail, [%{id: id, name: name, body: body} | acc])
   end
 
   def handle_event("send_message", event, socket) do
-    [{_id, name, _password}] = :ets.match_object(:users, {socket.assigns.user_id, :_ , :_})
-    message_id = Ecto.UUID.generate(version: 7)
-
+    [{_id, name, _password}] = :ets.lookup(:users, socket.assigns.user_id)
+    user_id = socket.assigns.user_id
+    message_id = add_new_message(user_id, event["body"])
     event =
       event
-      |> Map.put("id", message_id)
       |> Map.put("name", name)
+      |> Map.put("id", message_id)
 
-    :ets.insert(:messages, {event["id"] , socket.assigns.user_id, event["body"]})
+
     ZelestiaWeb.Endpoint.broadcast(@topic, @event_new_message, event)
+
     {:noreply, socket}
 
   end
 
   def handle_info(%{topic: @topic, event: @event_new_message, payload: payload}, socket) do
     #payload = Map.put(payload, :id, System.unique_integer([:positive]))
+
     {:noreply, assign(socket, messages: socket.assigns.messages ++ [payload])}
   end
 
