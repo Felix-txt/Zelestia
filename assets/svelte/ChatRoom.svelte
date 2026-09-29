@@ -10,8 +10,8 @@
     let name = $state("")
 
     function submitMessage() {
-        if (message === "" || name === "") return
-        live.pushEvent("send_message", {body: message, name: name})
+        if (message === "") return
+        live.pushEvent("send_message", {body: message})
         message = ""
     }
 </script>
@@ -27,11 +27,11 @@
         {/each}
     </ul>
 
-    
     <form class="message_field" onsubmit={preventDefault(submitMessage)}>
-        <input type="text" name="name" class="rounded" bind:value={name} placeholder="Your Name"  autocomplete="off"/>
         <input type="text" name="message" class="rounded" bind:value={message} placeholder="Message..." autocomplete="off" />
         <button class="rounded">Send</button>
+
+  
     </form>
 </div>
 
