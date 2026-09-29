@@ -12,7 +12,7 @@ defmodule ZelestiaWeb.AccountController do
   def create(conn, params) do
     encrypted_password = Bcrypt.hash_pwd_salt(params["password"])
 
-    user_id = :ets.info(:users, :size) + 1
+    user_id = Ecto.UUID.generate(version: 7)
 
     :ets.insert(:users, {user_id, params["username"], encrypted_password})
 
