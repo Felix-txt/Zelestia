@@ -1,5 +1,6 @@
 defmodule ZelestiaWeb.AccountController do
   use ZelestiaWeb, :controller
+  import ZelestiaWeb.UserHandler, only: [register_user: 2]
 
   def load_login(conn, _options) do
     render(conn, :login)
@@ -12,9 +13,7 @@ defmodule ZelestiaWeb.AccountController do
   def create(conn, params) do
     encrypted_password = Bcrypt.hash_pwd_salt(params["password"])
 
-    user_id = Ecto.UUID.generate(version: 7)
-
-    :ets.insert(:users, {user_id, params["username"], encrypted_password})
+    user_id = register_user(params["username"], encrypted_password)
 
     put_session(conn, :user_id, user_id)
     |> redirect(to: ~p"/")

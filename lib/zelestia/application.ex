@@ -4,7 +4,8 @@ defmodule Zelestia.Application do
   @moduledoc false
 
   use Application
-
+  alias ZelestiaWeb.MessageHandler
+  alias ZelestiaWeb.UserHandler
   @impl true
   def start(_type, _args) do
     node_js_children =
@@ -22,14 +23,15 @@ defmodule Zelestia.Application do
       # Start a worker by calling: Zelestia.Worker.start_link(arg)
       # {Zelestia.Worker, arg},
       # Start to serve requests, typically the last entry
-      ZelestiaWeb.Endpoint
+      ZelestiaWeb.Endpoint,
+      MessageHandler,
+      UserHandler
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Zelestia.Supervisor]
-    :ets.new(:messages,[:ordered_set, :public, :named_table])
-    :ets.new(:users,[:ordered_set, :public, :named_table])
+
     Supervisor.start_link(children, opts)
   end
 
