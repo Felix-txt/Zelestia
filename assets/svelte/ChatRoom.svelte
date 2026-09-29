@@ -29,9 +29,7 @@
 
     <form class="message_field" onsubmit={preventDefault(submitMessage)}>
         <input type="text" name="message" class="rounded" bind:value={message} placeholder="Message..." autocomplete="off" />
-        <button class="rounded">Send</button>
-
-  
+        <button class="rounded">Send</button>  
     </form>
 </div>
 
@@ -47,7 +45,7 @@
 
 .message_field{
     display: grid;
-    grid-template-columns: 10% 80% 10%;
+    grid-template-columns: 90% 10%;
     justify-content: center;
     max-height: 30px;
     border: 8px solid var(--theme-border);
