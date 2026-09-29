@@ -52,6 +52,8 @@ defmodule ZelestiaWeb do
   def live_view do
     quote do
       use Phoenix.LiveView
+      import ZelestiaWeb.MessageHandler, only: [add_new_message: 2]
+
 
       unquote(html_helpers())
     end
