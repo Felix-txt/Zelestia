@@ -7,38 +7,63 @@
     let {messages, live} = $props()
 
     let message = $state("")
-    let name = $state("")
 
     function submitMessage() {
         if (message === "") return
         live.pushEvent("send_message", {body: message})
         message = ""
     }
+    function handleKeydown(event) {
+    if (event.key === 'Enter') {
+      if (event.shiftKey) {
+        // Standard behaivour
+        return;
+      } else {
+        // Submit
+        event.preventDefault();
+        submitMessage();
+      }
+    }
+  }
 </script>
 
 <div class="field">
     <ul class="messages">
         {#each messages as message (message.id)}
-            <li in:slide class="">
+            <li in:slide id="{message.id}">
                 <i>{message.name}:</i>
                 <br>
-                {message.body}
+                <div class="markdown-preview">{@html message.body}</div>
             </li>
         {/each}
     </ul>
 
     <form class="message_field" onsubmit={preventDefault(submitMessage)}>
-        <input type="text" name="message" class="rounded" bind:value={message} placeholder="Message..." autocomplete="off" />
+        <textarea onkeydown={handleKeydown} type="text" name="message" class="rounded" bind:value={message} placeholder="Message..." autocomplete="off"></textarea>
         <button class="rounded">Send</button>  
     </form>
 </div>
 
 <style>
+/* So markdown dose not go crazy with spacing */
+.markdown-preview :global(h1),
+.markdown-preview :global(h2),
+.markdown-preview :global(h3) {
+    margin-top: 0px;
+    margin-bottom: 4px;
+}
+
+.markdown-preview :global(p) {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    white-space: pre-line; 
+}
 
 .field{
-    display: grid;
+    display: flex;
     height: 100%;
-    grid-template-rows: 90% auto;
+    flex-direction: column;
+    
     overflow: hidden;
     scroll-behavior: none;
 }
@@ -51,6 +76,9 @@
     border: 8px solid var(--theme-border);
     border-radius: 25px;
     background: var(--theme-middle-background);
+    margin-bottom: 16px;
+    margin-left: 16px;
+    margin-right: 16px;
 }
 
 .messages{
@@ -77,5 +105,4 @@
 .message_field > button:hover{
     cursor: pointer;
 }
-
 </style>
