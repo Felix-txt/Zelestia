@@ -20,7 +20,7 @@ defmodule ZelestiaWeb.AccountController do
   end
 
   def logout(conn, _params) do
-    configure_session(conn, drop: true)
+    delete_session(conn, :user_id)
     |> redirect(to: ~p"/account/login")
   end
 
