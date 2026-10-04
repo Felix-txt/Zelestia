@@ -31,12 +31,21 @@ defmodule ZelestiaWeb.Router do
     plug :bouncer
   end
 
+  pipeline :channel? do
+    plug :channel_exists?
+  end
+
   # Must be Logged in to acces
   scope "/", ZelestiaWeb do
     pipe_through [:browser, :auth]
-    live "/chatroom", Chat
 
     get "/", PageController, :home
+  end
+
+  scope "/channels/:channel_id", ZelestiaWeb do
+    pipe_through [:browser, :auth, :channel?]
+
+    live "/", Chat
   end
 
   # Other scopes may use custom stacks.
@@ -51,6 +60,18 @@ defmodule ZelestiaWeb.Router do
       conn
       |> put_flash(:error, "Must be logged in to view this page.")
       |> redirect(to: "/account/login")
+      |> halt()
+    end
+  end
+
+  defp channel_exists?(conn, _opts) do
+
+    if :ets.lookup(:channels, conn.params["channel_id"]) != [] do
+      conn
+    else
+      conn
+      |> put_flash(:error, "Channel dose not exist.")
+      |> redirect(to: "/")
       |> halt()
     end
   end
