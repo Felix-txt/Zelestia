@@ -26,7 +26,7 @@ config :zelestia, ZelestiaWeb.Endpoint,
   debug_errors: true,
   secret_key_base: "k0II0E0HASikQBWX4JABNLbEmiiq6rV1MT4CFpn1CCjQb1TJbElV+QdRpPVvAf9X",
   watchers: [vite: {PhoenixVite.Npm, :run, [:vite, ~w(dev)]}],
-  static_url: [host: System.get_env("SERVER_IP"), port: 5173]
+  static_url: [host: "localhost", port: 5173]
 
 # ## SSL Support
 #
