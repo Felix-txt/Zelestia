@@ -5,7 +5,7 @@ set -e
 cleanup() {
     docker compose down
 }
-trap cleanup EXIT SIGINT
+trap cleanup INT EXIT 
 
 git pull
 
