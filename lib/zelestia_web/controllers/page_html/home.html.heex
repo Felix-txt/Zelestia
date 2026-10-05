@@ -1,1 +1,11 @@
-<a href="/chatroom">Chatroom</a>
+<ul>
+<%= for {channel_id, _type} <- @channels do %>
+  <li><a href={"/channels/#{channel_id}"}><%= channel_id %></a></li>
+<% end %>>
+</ul>
+
+<style>
+    a{
+        color: white;
+    }
+</style>

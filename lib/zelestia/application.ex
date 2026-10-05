@@ -6,6 +6,7 @@ defmodule Zelestia.Application do
   use Application
   alias ZelestiaWeb.MessageHandler
   alias ZelestiaWeb.UserHandler
+  alias ZelestiaWeb.ChannelHandler
   @impl true
   def start(_type, _args) do
     node_js_children =
@@ -25,7 +26,8 @@ defmodule Zelestia.Application do
       # Start to serve requests, typically the last entry
       ZelestiaWeb.Endpoint,
       MessageHandler,
-      UserHandler
+      UserHandler,
+      ChannelHandler
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
