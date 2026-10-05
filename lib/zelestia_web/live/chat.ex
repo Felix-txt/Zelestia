@@ -43,22 +43,25 @@ defmodule ZelestiaWeb.Chat do
     [{_id, name, _password}] = :ets.lookup(:users, socket.assigns.user_id)
     channel_id = socket.assigns.channel_id
     user_id = socket.assigns.user_id
-    message_id = add_new_message(channel_id, user_id, event["body"])
+
+    message_body = MDEx.to_html!(event["body"])
+
+    message_id = add_new_message(channel_id, user_id, message_body)
+
     event =
       event
       |> Map.put("name", name)
       |> Map.put("id", message_id)
-
+      |> Map.put("body", message_body)
 
     ZelestiaWeb.Endpoint.broadcast(channel_id, @event_new_message, event)
 
     {:noreply, socket}
-
   end
+
 
   def handle_info(%{topic: _topic, event: @event_new_message, payload: payload}, socket) do
     #payload = Map.put(payload, :id, System.unique_integer([:positive]))
-
     {:noreply, assign(socket, messages: socket.assigns.messages ++ [payload])}
   end
 
