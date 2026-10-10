@@ -8,7 +8,8 @@ export default defineConfig({
     port: 5173,
     strictPort: true,
     cors: true,
-    host: "0.0.0.0",
+    host: '0.0.0.0',
+    allowedHosts: true,
     transformer: 'esbuild',
   },
   optimizeDeps: {

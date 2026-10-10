@@ -10,9 +10,9 @@ defmodule ZelestiaWeb.MessageHandler do
   @doc """
     Returns `message_id`.
   """
-  def add_new_message(user_id, message_body) do
+  def add_new_message(channel_id, user_id, message_body) do
     message_id = Ecto.UUID.generate(version: 7)
-    GenServer.cast(__MODULE__, {:new_message, message_id, user_id, message_body})
+    GenServer.cast(__MODULE__, {:new_message, message_id, channel_id, user_id, message_body})
     message_id
   end
 
@@ -21,9 +21,9 @@ defmodule ZelestiaWeb.MessageHandler do
     {:ok, state}
   end
 
-  def handle_cast({:new_message, message_id, user_id, message_body}, state) do
+  def handle_cast({:new_message, message_id, cannel_id, user_id, message_body}, state) do
 
-    :ets.insert(@table_name, {message_id, user_id, message_body})
+    :ets.insert(@table_name, {message_id, cannel_id, user_id, message_body})
     {:noreply, state}
   end
 
