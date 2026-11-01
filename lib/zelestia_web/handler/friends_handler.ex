@@ -51,6 +51,9 @@ defmodule ZelestiaWeb.FriendsHandler do
     end
   end
 
+  def accept_request(user_id, friend_id) do
+    GenServer.cast(__MODULE__, {:accept_request, user_id, friend_id, })
+  end
 
   def remove_friend(user_id, friend_id) do
     GenServer.cast(__MODULE__, {:remove_friend, user_id, friend_id, })
@@ -64,6 +67,12 @@ defmodule ZelestiaWeb.FriendsHandler do
   def handle_cast({:new_request, u_id1, u_id2}, state) do
     :ets.insert(@table_name, {u_id1, u_id2, "sent"})
     :ets.insert(@table_name, {u_id2, u_id1, "pending"})
+    {:noreply, state}
+  end
+
+  def handle_cast({:accept_request, u_id1, u_id2}, state) do
+    :ets.insert(@table_name, {u_id1, u_id2, "friends"})
+    :ets.insert(@table_name, {u_id2, u_id1, "friends"})
     {:noreply, state}
   end
 
