@@ -4,6 +4,7 @@ defmodule Zelestia.Application do
   @moduledoc false
 
   use Application
+  alias ZelestiaWeb.FriendsHandler
   alias ZelestiaWeb.MessageHandler
   alias ZelestiaWeb.UserHandler
   alias ZelestiaWeb.ChannelHandler
@@ -27,7 +28,8 @@ defmodule Zelestia.Application do
       ZelestiaWeb.Endpoint,
       MessageHandler,
       UserHandler,
-      ChannelHandler
+      ChannelHandler,
+      FriendsHandler
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
