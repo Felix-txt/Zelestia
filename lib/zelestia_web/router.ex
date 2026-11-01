@@ -40,6 +40,8 @@ defmodule ZelestiaWeb.Router do
     pipe_through [:browser, :auth]
 
     get "/", PageController, :home
+
+    post "/friends/request", FriendController, :new_request
   end
 
   scope "/channels/:channel_id", ZelestiaWeb do
