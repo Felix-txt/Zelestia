@@ -42,6 +42,7 @@ defmodule ZelestiaWeb.Router do
     get "/", PageController, :home
 
     post "/friends/request", FriendController, :new_request
+    patch "/friends/request", FriendController, :accept_request
   end
 
   scope "/channels/:channel_id", ZelestiaWeb do
